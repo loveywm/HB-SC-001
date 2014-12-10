@@ -1,0 +1,21 @@
+---- Buzzer_Beep Matches (17 in 5 files) ----
+HB-SC-001.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = uiKeyGetKey &rArr; Buzzer_Beep &rArr; BUZZER_ON
+HB-SC-001.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+HB-SC-001.htm (keil\output):<P><STRONG><a name="[7a]"></a>Buzzer_Beep</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, voice.o(.text))
+HB-SC-001.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Buzzer_Beep &rArr; BUZZER_ON
+HB-SC-001.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+HB-SC-001.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+HB-SC-001.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+KeyBoard.c (sourcefile\app):			Buzzer_Beep(1, 100);
+msOS-Stm32.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = uiKeyGetKey &rArr; Buzzer_Beep &rArr; BUZZER_ON
+msOS-Stm32.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+msOS-Stm32.htm (keil\output):<P><STRONG><a name="[7a]"></a>Buzzer_Beep</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, voice.o(.text))
+msOS-Stm32.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Buzzer_Beep &rArr; BUZZER_ON
+msOS-Stm32.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+msOS-Stm32.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+msOS-Stm32.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
+Voice.c (sourcefile\app):void Buzzer_Beep(u8 nBeepTimes, u16 nMiliSecond)
+Voice.h (sourcefile\app):void Buzzer_Beep(u8 nBeepTimes, u16 nMiliSecond);
+---- Buzzer_Beep Search Errors Encountered (1) ----
+The following 1 files could not be processed:
+E:\code\HB-SC-001\Keil\Output\HB-SC-001.build_log.htm : File could not be opened.
