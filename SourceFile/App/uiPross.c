@@ -242,7 +242,26 @@ void uiProcMainDraw(BOOL Initialise,Menu_Parameter *Parameter)	/*待机界面的显示*
 		
 		if((Parameter->Parameter_Change_Position)&(SHOWFLAG))
 		{
-			uiProcShowFlag(App.Input_Data);
+			//临时调编码器屏蔽
+			//uiProcShowFlag(App.Input_Data);
+		}
+
+		if((Parameter->Parameter_Change_Position)&(SHOWFLOOR))
+		{
+			switch(Parameter->Show_Floor)
+			{
+				case MASTER_STOP:
+					uiLcd_1616_ch(5,2,44,1);//显示清空
+					break;
+				case MASTER_DOWN:
+					uiLcd_1616_ch(4,2,44,1);//显示下降图标
+					break;
+				case MASTER_UP:
+					uiLcd_1616_ch(3,2,44,1);//显示上升图标
+					break;
+				default:
+					break;
+			}
 		}
 
 	}
@@ -295,7 +314,7 @@ static u8  Handle_Weight(Menu_Parameter *Parameter)
 	operate_temp=ad_temp;
 	ad_temp=(operate_temp * App.Weight.calibrate_sub_value)/App.Weight.calibrate_ad_sub_value;//得到最终的重量值	
 
-	uiLcdDecimal(ad_temp,1+2, 0,0,4);
+	//uiLcdDecimal(ad_temp,1+2, 0,0,4);
 
 	Parameter->Weight_Integer = (u8)(ad_temp/1000);
 	ad_temp=ad_temp%1000;
@@ -317,6 +336,10 @@ static u8 Handle_ERR_Code(Menu_Parameter *Parameter)
 
 	//printf("App.Input_Data==%x\r\n",App.Input_Data);
 	//printf("Err_Code==%x\r\n",Err_Code);
+
+	//临时加入
+	uiLcdDecimal(Err_Code,3,0,0,4);
+	//uiLcdDecimal(ad_temp,1+2, 0,0,4);
 	
 	if(App.Input_Data == Err_Code)
 	{
@@ -335,6 +358,78 @@ static u8 Handle_ERR_Code(Menu_Parameter *Parameter)
 	
 }
 
+//处理主令扫描
+static u8  Handle_Master(Menu_Parameter *Parameter)
+{
+
+	u8 Scan_value ;
+	App.Master_Flag = System.Device.IO.ScanPin();//扫描主令值
+	DelayMs(10);//去抖
+	Scan_value = System.Device.IO.ScanPin();//扫描主令值
+
+	if(App.Master_Flag != Scan_value)
+	{
+		return 0;
+	}
+	else 
+	{
+		
+	}
+
+	if(master_pre_value ==  App.Master_Flag)
+	{
+		//return 0;//由于连续发送五次，导致语音播放杂音问题，暂时只发送一次
+		
+		tmpxxx++;
+		if(tmpxxx == 2)//连续五次相等，就不发送
+		{
+			tmpxxx = 1;
+			return 0;
+		}
+		//Send_Flag = 1;
+	}
+	else
+	{
+		//Send_Flag = 1;
+		tmpxxx = 0;
+		master_pre_value = App.Master_Flag;
+	}
+	Parameter->Parameter_Change_Flag = 1;
+	Parameter->Parameter_Change_Position |= SHOWFLOOR;
+
+	if(App.Master_Flag ==  0xfe)//第一位下降
+	{
+		
+		HB_Send_Realy_CMD(CMD_RELAY_DOWN);
+		Parameter->Show_Floor = MASTER_DOWN;
+		uiLcdDecimal(1,3,12,0,1);
+		WTV_Voice(MASTER_DOWM_FLAG);
+		
+	}
+	else if(App.Master_Flag ==  0xfd)//第二位上升
+	{
+		HB_Send_Realy_CMD(CMD_RELAY_UP);
+		Parameter->Show_Floor = MASTER_UP;
+		uiLcdDecimal(2,3,12,0,1);
+
+
+		WTV_Voice(MASTER_UP_FLAG);
+		
+	}
+	else if(App.Master_Flag ==  0xfb)//第三位停止
+	{
+		HB_Send_Realy_CMD(CMD_RELAY_STOP);
+		Parameter->Show_Floor = MASTER_STOP;
+		uiLcdDecimal(3,3,12,0,1);
+	}
+	else
+	{
+
+	}
+
+	
+
+}
 
 void uiProcMenuHasValue(int nPopupMenuTitle, T_UI_MENUITEM *pUiMenuItem, int row,int nCurrentIndex)
 {
@@ -902,6 +997,8 @@ void uiProcMain(void)
 	//float Temperature;
 	//float temp;
 	//int i;
+	//u8  xxxx;
+	
 	Menu_Parameter Parameter;
 	Target_F = 1;//初始话楼层
 	//重置密码使用
@@ -917,6 +1014,14 @@ void uiProcMain(void)
 	FlushUart2();
 	uiProcMainDraw(TRUE,&Parameter);
 	uiProcMenuBuild();//建立菜单目录
+
+	//for(xxxx= 0;xxxx<0x41;xxxx++)
+	//{
+		
+		//WTV_Voice(xxxx);
+		//DelayMs(1000*4);
+	//}
+	
 	while(1)
 	{
 		nKey  = uiKeyGetKey();//处理按键和楼层
@@ -935,13 +1040,10 @@ void uiProcMain(void)
 				//得到重量的值
 				Handle_Weight(&Parameter);
 			}
-			//for(i=0;i<fram_len;i++)
-			//{
-				//printf("%x\r",fram_data_buff[i]);
-			//}
-			//printf("\r\n");
-			//FlushUart2();
 		}
+
+		Handle_Master(&Parameter);
+
 		uiProcMainDraw(FALSE,&Parameter);//更新显示
 		Parameter.Parameter_Change_Flag =0;
 		Parameter.Parameter_Change_Position=0;

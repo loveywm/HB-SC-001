@@ -32,6 +32,16 @@ enum{
 	TARGERFLOOR = 2,
 	WEITHT = 4,
 	SHOWFLAG =8,
+	SHOWFLOOR = 0x10,
+};
+
+//楼层图标显示枚举
+enum{
+	
+	MASTER_STOP =1,
+	MASTER_UP,
+	MASTER_DOWN,
+
 };
 
 
@@ -49,6 +59,11 @@ typedef struct Menu_Parameter
 	u8	Weight_Percentage;
 
 	u8	Show_Flag;
+
+	//楼层上下的标志
+	u8	Show_Floor;
+	//u8	Show_Down;
+	//u8	Show_Stop;
 	
 }Menu_Parameter;
 

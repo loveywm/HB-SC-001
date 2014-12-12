@@ -32,7 +32,7 @@
 #include "system.h"
 
 //extern void KeySystick100Routine(void);
-
+extern void MasterSystick100Routine(void); 
 extern void RtcSystick100Routine(void);
 
 //extern void TimerSystick1000Routine(void);
@@ -245,6 +245,7 @@ void SysTick_Handler(void)
             break;
         case 99:
             //KeySystick100Routine();
+            MasterSystick100Routine();
             break; 
         default:
             break;

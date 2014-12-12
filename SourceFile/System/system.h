@@ -202,6 +202,16 @@ typedef struct
 
 ////////////////////////////////////////////////
 
+//输出IO口的对外定义
+enum{
+
+	WTV_CS,
+	WTV_CLK,
+	WTV_DATA,
+	WTV_RST,
+};
+
+
 
 typedef enum
 {
@@ -248,7 +258,9 @@ typedef struct
 
         struct IO
         {
-            void (*SetBeep)(bool status);
+            	void (*SetBeep)(bool status);
+		void (*HB_Gpio_Set_Value)(u8 HB_Gpio_type,u8 HB_Gpio_Value);
+		u8 (*ScanPin)(void);
         }IO;
 
 	//loveywm 20140923

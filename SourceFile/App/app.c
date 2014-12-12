@@ -46,6 +46,10 @@ u32	Target_F;//目标楼层的全局变量
 unsigned char  fram_data_buff[MAX_FRAM_LEN];////这个数组保存得到的一个掐头去尾的报文帧
 unsigned char  fram_len = 0;
 
+
+u32 tmpxxx;//用于计数
+u8 master_pre_value;//扫描按键值的前面
+
 /*******************************************************************************
 * 函数名	: SystemTickRoutine
 * 描述	    : 应用层系统节拍，用于执行固定间隔功能，间隔时间取决于注册函数

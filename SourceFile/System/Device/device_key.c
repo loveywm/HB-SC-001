@@ -16,24 +16,6 @@
 #include "system.h"
 
 
-#define ScanPin00	PbOut(4)
-#define ScanPin01	PbOut(5)
-
-#define ScanPin10	PcIn(10)
-#define ScanPin11	PcIn(11)
-#define ScanPin12	PcIn(12)
-#define ScanPin13	PbIn(3)
-
-#define ShortInterval   3		//短按按键间隔，不得低于3
-#define LongInterval    40		//长按按键间隔
-#define DoubleHitInterval  10		//防连续双击误动间隔
-#define KeyBeepInterval  20
-
-static byte ScanValueSave = 0xFF;
-static byte ScanCounter = 0;
-static byte DoubleHitCounter = 0;
-static byte KeyBeepCounter = 0;
-
 
 //loveywm 20140906
 #define KEY0  GPIO_ReadInputDataBit(GPIOE,GPIO_Pin_4)//????0

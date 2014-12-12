@@ -1,8 +1,58 @@
 #ifndef		_VOICE_H_
 #define		_VOICE_H_
 
+//语音模块播放代码对应的枚举宏
+enum{
 
+	MASTER_UP_FLAG = 0x00,//升降机上升注意安全
+	MASTER_DOWM_FLAG,//升降机下降注意安全
+	DIAOLONGDAOZHAN,//吊笼到站
+	QINGTINGWENHOUZAIKAIMEN,//请停稳后再开门///这个暂时没有
+	JINGLIAOMENWEIGUAN,//进料门未关
+	CHULIAOMENWEIGUAN=0x05,//出料门未关
+	TIANCHUANWEIGUAN,//天窗未关
+
+	SHENGJIANGJICAOZAI = 0x08,//升降机超载
+
+	ONE_FLAG= 0x17,//1//1
+	TWO_FLAG,
+	THREE_FLAG,
+	FOUR_FLAG,
+	FIVE_FLAG,
+	SIX_FLAG,
+	SEVEN_FLAG,
+	EGHIT_FLAG,
+	NINE_FLAG,
+	TEN_FLAG,
+	
+	DINGDONG = 0x21,//叮咚
+	CENG_FALG,//层
+
+	FU_FLAG = 0x25,//负
+	DI_FALG,//底
+
+	LINGSHENGYI=0x27,//铃声一
+	LINGSHENGER=0x28,//铃声二
+	LINGSHENGSAN=0x29,//铃声三
+
+	PINGCENGSHANGXIANBAOHU = 0xa,
+	PINGCENGXIAXIANBAOHU,
+	XITONGGUZHANG,//系统故障
+	PINGCENGGUZHANG,//平层故障
+
+	HUANYINGSHIYONG = 0x32,//欢迎使用
+	SHIGONGSHENGJIANGJI,//施工升降机
+
+	
+	QINGSHIYONGZHULINGKAIGUAN=0x41,//请使用主令开关
+	
+
+
+};
 
 void Buzzer_Beep(u8 nBeepTimes, u16 nMiliSecond);
+
+
+void WTV_Voice(u8 addr);
 								
 #endif		//_VOICE_H_

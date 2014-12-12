@@ -81,6 +81,8 @@ typedef struct
 
 	 u16  Input_Data;//16位状态值检测存储值
 	 u32  Weight_Tmp;//传感器的捕捉的重量值
+	 u8	Master_Flag;//主令开关的各种位状态标志
+	// u8	Voice_Play_Flag;//声音正在运行标志
 	 
 }AppStruct;
 
@@ -90,6 +92,10 @@ extern u16 Temperature_tmp;
 extern u32	Target_F;
 extern unsigned char fram_len;
 extern unsigned char  fram_data_buff[MAX_FRAM_LEN];
+
+
+extern u32 tmpxxx;//用于计数
+extern u8 master_pre_value;//扫描按键值的前面
 
 
 #include "logic.h"

@@ -1,21 +1,18 @@
----- Buzzer_Beep Matches (17 in 5 files) ----
-HB-SC-001.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = uiKeyGetKey &rArr; Buzzer_Beep &rArr; BUZZER_ON
-HB-SC-001.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-HB-SC-001.htm (keil\output):<P><STRONG><a name="[7a]"></a>Buzzer_Beep</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, voice.o(.text))
-HB-SC-001.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Buzzer_Beep &rArr; BUZZER_ON
-HB-SC-001.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-HB-SC-001.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-HB-SC-001.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-KeyBoard.c (sourcefile\app):			Buzzer_Beep(1, 100);
-msOS-Stm32.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 40<LI>Call Chain = uiKeyGetKey &rArr; Buzzer_Beep &rArr; BUZZER_ON
-msOS-Stm32.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-msOS-Stm32.htm (keil\output):<P><STRONG><a name="[7a]"></a>Buzzer_Beep</STRONG> (Thumb, 40 bytes, Stack size 16 bytes, voice.o(.text))
-msOS-Stm32.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 24<LI>Call Chain = Buzzer_Beep &rArr; BUZZER_ON
-msOS-Stm32.htm (keil\output):<LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-msOS-Stm32.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-msOS-Stm32.htm (keil\output):<BR>[Called By]<UL><LI><a href="#[7a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Buzzer_Beep
-Voice.c (sourcefile\app):void Buzzer_Beep(u8 nBeepTimes, u16 nMiliSecond)
-Voice.h (sourcefile\app):void Buzzer_Beep(u8 nBeepTimes, u16 nMiliSecond);
----- Buzzer_Beep Search Errors Encountered (1) ----
-The following 1 files could not be processed:
+---- uiLcd_1616_ch Matches (13 in 7 files) ----
+Gui.c (sourcefile\system\gui):		uiLcd_1616_ch(0,4,0,3);//显示“吊重：”
+HB-SC-001.htm (keil\output):<P><STRONG><a name="[84]"></a>uiLcd_1616_ch</STRONG> (Thumb, 156 bytes, Stack size 32 bytes, uilcd_12864.o(.text))
+HB-SC-001.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = uiLcd_1616_ch
+HB-SC-001.htm (keil\output):<LI><a href="#[84]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uiLcd_1616_ch
+Logic.c (sourcefile\app):		uiLcd_1616_ch(0,4,0,3);//显示“吊重：”
+msOS-Stm32.htm (keil\output):<P><STRONG><a name="[83]"></a>uiLcd_1616_ch</STRONG> (Thumb, 156 bytes, Stack size 32 bytes, uilcd_12864.o(.text))
+msOS-Stm32.htm (keil\output):<BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = uiLcd_1616_ch
+msOS-Stm32.htm (keil\output):<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;uiLcd_1616_ch
+uiLCD_12864.c (sourcefile\app):void uiLcd_1616_ch(u8 address,u8 row,u8 col,u8 num)
+uiLCD_12864.h (sourcefile\app):void uiLcd_1616_ch(u8 address,u8 row,u8 col,u8 num);
+uiPross.c (sourcefile\app):		uiLcd_1616_ch(0,4,0,3);//显示“吊重：”
+uiPross.c (sourcefile\app):					uiLcd_1616_ch(0,4,0,3);//显示“吊重：”
+uiPross.c (sourcefile\app):				//uiLcd_1616_ch(UISTR_XXX_ZAIZHONG_SET_EDINGZHONGLIANG, (1+i)*2, HEAD_LEN, 4);
+---- uiLcd_1616_ch Search Errors Encountered (2) ----
+The following 2 files could not be processed:
 E:\code\HB-SC-001\Keil\Output\HB-SC-001.build_log.htm : File could not be opened.
+E:\code\HB-SC-001\Keil\JLinkLog.txt : File could not be opened.
