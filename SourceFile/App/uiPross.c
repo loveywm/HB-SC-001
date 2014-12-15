@@ -287,10 +287,23 @@ u16 T_Get_Adc_Average(u8 times)
 static u8  Handle_Weight(Menu_Parameter *Parameter)
 {
 	u32 ad_temp,operate_temp;
-	App.Weight_Tmp =  fram_data_buff[5];			
-	App.Weight_Tmp = (App.Weight_Tmp << 8) |fram_data_buff[4];
+	//App.Weight_Tmp =  fram_data_buff[5];			
+	//App.Weight_Tmp = (App.Weight_Tmp << 8) |fram_data_buff[4];
+	int adxxx = 0;
 
-	printf("App.Weight_Tmp===%d\r\n",App.Weight_Tmp);
+
+
+	//20141215 用于显示临时平层计数器编码值
+	adxxx |= fram_data_buff[7]<<24;
+	adxxx |= fram_data_buff[6]<<16;
+	adxxx |= fram_data_buff[5]<<8;
+	adxxx |= fram_data_buff[4];
+
+	uiLcdDecimal(adxxx,3,0,0,7);
+	return 0;
+	
+
+	//printf("App.Weight_Tmp===%d\r\n",App.Weight_Tmp);
 			
 	if(App.Weight.weight_clear_ad_value_sign == 0)
 	{
@@ -338,7 +351,7 @@ static u8 Handle_ERR_Code(Menu_Parameter *Parameter)
 	//printf("Err_Code==%x\r\n",Err_Code);
 
 	//临时加入
-	uiLcdDecimal(Err_Code,3,0,0,4);
+	uiLcdDecimal(Err_Code,3,9,0,5);
 	//uiLcdDecimal(ad_temp,1+2, 0,0,4);
 	
 	if(App.Input_Data == Err_Code)
@@ -402,7 +415,7 @@ static u8  Handle_Master(Menu_Parameter *Parameter)
 		
 		HB_Send_Realy_CMD(CMD_RELAY_DOWN);
 		Parameter->Show_Floor = MASTER_DOWN;
-		uiLcdDecimal(1,3,12,0,1);
+		uiLcdDecimal(1,3,15,0,1);
 		WTV_Voice(MASTER_DOWM_FLAG);
 		
 	}
@@ -410,7 +423,7 @@ static u8  Handle_Master(Menu_Parameter *Parameter)
 	{
 		HB_Send_Realy_CMD(CMD_RELAY_UP);
 		Parameter->Show_Floor = MASTER_UP;
-		uiLcdDecimal(2,3,12,0,1);
+		uiLcdDecimal(2,3,15,0,1);
 
 
 		WTV_Voice(MASTER_UP_FLAG);
@@ -420,7 +433,7 @@ static u8  Handle_Master(Menu_Parameter *Parameter)
 	{
 		HB_Send_Realy_CMD(CMD_RELAY_STOP);
 		Parameter->Show_Floor = MASTER_STOP;
-		uiLcdDecimal(3,3,12,0,1);
+		uiLcdDecimal(3,3,15,0,1);
 	}
 	else
 	{
@@ -430,6 +443,56 @@ static u8  Handle_Master(Menu_Parameter *Parameter)
 	
 
 }
+/////////////////////////////////////////////
+//判断报文是否校验和正确,pRep保存的报文是掐头去尾
+char   Cmd_Rep_valid(char*  pRep,char* plen)
+{
+	char i = 0,j = 0;
+	//char sum = PROTOCOL_HEAD_1 + PROTOCOL_HEAD_2;
+	char sum = 0;
+	////分析报文，将转义符处理掉
+    	for(i=0;i<(*plen-1);)//最后一个是校验和，不用判断
+	{
+		sum += pRep[i];
+		if(pRep[i] == PROTOCOL_ESC_CHAR)
+		{
+			if(i == *plen-2)
+			{
+				return 0;
+			}
+			else
+			{
+				if((pRep[i+1]!= PROTOCOL_ESC_CHAR_COD)&&
+					(pRep[i+1]!= PROTOCOL_TAIL_1_COD)&&
+					(pRep[i+1]!= PROTOCOL_HEAD_1_COD))
+					return 0;
+				else
+				{
+					sum += pRep[i+1];
+					fram_data_buff[j] = 0xff - pRep[i+1];
+					j++;
+					i+=2;
+				}
+			}
+		}
+		else
+		{
+			fram_data_buff[j] = pRep[i];
+			j++;
+			i++;
+		}
+	}
+	fram_data_buff[j] = pRep[*plen-1];
+	///判断校验和
+	if(sum != fram_data_buff[j])
+		return 0;
+	*plen = fram_data_buff[1]+3;//头+数据长度+数据+校验和
+    	return 1;
+}
+
+
+
+//////////////////////////////////////////////
 
 void uiProcMenuHasValue(int nPopupMenuTitle, T_UI_MENUITEM *pUiMenuItem, int row,int nCurrentIndex)
 {
@@ -1032,14 +1095,24 @@ void uiProcMain(void)
 		//用于处理串口接受协议处理
 		if(Rcv_Cmd() == 1)
 		{
-
-			if(fram_data_buff[0] == CMD_RT_DATA)
+			//由于开始校验和分析数据函数没实现，造成数据处理显示碰到有
+			//头和尾相同的数据时显示乱码，显示很大的跳变，其实在控制端
+			//是没有变化的。所以要处理下，以后显示问题都可能是这里出现的问题
+			//所以需要谨慎处理
+			if(Cmd_Rep_valid(fram_data_buff,&fram_len))
 			{
-				//得到16位错误代码
-				Handle_ERR_Code(&Parameter);
-				//得到重量的值
-				Handle_Weight(&Parameter);
+
+				if(fram_data_buff[0] == CMD_RT_DATA)
+				{
+					//得到16位错误代码
+					Handle_ERR_Code(&Parameter);
+					//得到重量的值
+					Handle_Weight(&Parameter);
+				}
+
+
 			}
+			
 		}
 
 		Handle_Master(&Parameter);

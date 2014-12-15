@@ -22,7 +22,20 @@ enum{
 
 };
 
+///////////////////////////////////ึกร่ส๖
+//ึกอท
+#define   PROTOCOL_HEAD_1       0x5A
+#define   PROTOCOL_HEAD_1_COD   0xA5
+#define   PROTOCOL_HEAD_2       0x55
 
+//ึกฮฒ
+#define   PROTOCOL_TAIL_1       0x6A
+#define   PROTOCOL_TAIL_1_COD   0x95
+#define   PROTOCOL_TAIL_2       0x69
+
+//ืชาๅท๛
+#define   PROTOCOL_ESC_CHAR     0x99
+#define   PROTOCOL_ESC_CHAR_COD 0x66
 
 
 void Usart2RxDataTOApp(byte data);

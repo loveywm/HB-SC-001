@@ -46,20 +46,7 @@ void  FlushUart2(void)
     	UART2_RxTail = UART2_RxHead;//UART2_RxTail = UART2_RxHead;
 }
 
-///////////////////////////////////帧描述
-//帧头
-#define   PROTOCOL_HEAD_1       0x5A
-#define   PROTOCOL_HEAD_1_COD   0xA5
-#define   PROTOCOL_HEAD_2       0x55
 
-//帧尾
-#define   PROTOCOL_TAIL_1       0x6A
-#define   PROTOCOL_TAIL_1_COD   0x95
-#define   PROTOCOL_TAIL_2       0x69
-
-//转义符
-#define   PROTOCOL_ESC_CHAR     0x99
-#define   PROTOCOL_ESC_CHAR_COD 0x66
 
 /////////////////////////////////////////////
 #define    R_DATA_BUFF_LEN  256    //之所以要定义256个长度的数组，就是为了能够让数组“首尾相接”。因为0 -1 = 255 ， 255+1 = 0。
