@@ -64,10 +64,13 @@ enum
 	UISTR_FLAG_OUT_DOOR =90,//出
 	UISTR_FLAG_SKY_DOOR =91,//天窗
 
+
+	UISTR_ENCODER_FLOOR = 93,//标定楼层
+
 	
 };
 
-
+//16*16的索引
 enum
 {
 	UISTR_MENU,
@@ -105,6 +108,9 @@ enum
 
 	UISTR_XXX_ZAIZHONG_SET_BIAODINGDIAN_ONE = 24,///设置标定点一
 	UISTR_XXX_ZAIZHONG_SET_BIAODINGDIAN_TWO = 30,//设置标定点二
+
+	UISTR_XXX_SUCESS = 36,//确认
+	UISTR_XXX_FAIL = 38,	//退出
 
 };
 

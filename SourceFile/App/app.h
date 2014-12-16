@@ -27,10 +27,17 @@ typedef unsigned char BOOL;
 typedef unsigned char UINT8,u8;
 typedef unsigned short UINT16;
 typedef unsigned int UINT32,u32;
-#define 	APP_SETUP_ADD 		0x100000  //系统参数存放的flash位置
+#define 	APP_SETUP_ADD 		0x0  //系统参数存放的flash位置
+#define 	FLOOR_ADD 		0x20000  //楼层数据存放的flash位置
 
 #define   MAX_FRAM_LEN    32   /*若帧长度大于此值，则认为无效，重新搜索帧头*/
+#define     MAX_FLOOR_NUM   10//此时定义楼层最大高度
 
+typedef struct{
+        u8  floor_flag;//为1时表示在使用，为0时表示数值有问题
+        u8  floor_num;//数值楼层
+        u32     floor_count;//楼层对应的编码器计数值
+}Floor_Data;
 
 typedef struct
 {
@@ -83,6 +90,8 @@ typedef struct
 	 u32  Weight_Tmp;//传感器的捕捉的重量值
 	 u8	Master_Flag;//主令开关的各种位状态标志
 	// u8	Voice_Play_Flag;//声音正在运行标志
+
+	u32	Floor_Last_Count;//平层传感器保存数据
 	 
 }AppStruct;
 
@@ -92,7 +101,7 @@ extern u16 Temperature_tmp;
 extern u32	Target_F;
 extern unsigned char fram_len;
 extern unsigned char  fram_data_buff[MAX_FRAM_LEN];
-
+extern Floor_Data   floor_tmp[MAX_FLOOR_NUM];
 
 extern u32 tmpxxx;//用于计数
 extern u8 master_pre_value;//扫描按键值的前面
@@ -115,6 +124,7 @@ extern u8 master_pre_value;//扫描按键值的前面
 
 #include "uiLCD_tft.h"
 #include "load.h"//载重相关代码文件
+#include "Encoder.h"
 
 #endif /*__APP_H*/
 

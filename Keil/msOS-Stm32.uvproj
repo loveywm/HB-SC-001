@@ -448,6 +448,11 @@
               <FileType>1</FileType>
               <FilePath>..\SourceFile\App\load.c</FilePath>
             </File>
+            <File>
+              <FileName>Encoder.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\SourceFile\App\Encoder.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

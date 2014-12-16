@@ -50,6 +50,10 @@ unsigned char  fram_len = 0;
 u32 tmpxxx;//用于计数
 u8 master_pre_value;//扫描按键值的前面
 
+
+//楼层数据保存
+Floor_Data   floor_tmp[MAX_FLOOR_NUM];
+
 /*******************************************************************************
 * 函数名	: SystemTickRoutine
 * 描述	    : 应用层系统节拍，用于执行固定间隔功能，间隔时间取决于注册函数
@@ -110,7 +114,7 @@ void InitializeData(void)
 	UINT16 wCheckSum = 0x00;
 	UINT8 *pPoint;
 	UINT16	i;
-	BOOL 	cRet = FALSE;
+//	BOOL 	cRet = FALSE;
 	BOOL 	bCheckSumErr = FALSE;
 	BOOL	bLoadDefaultSettings = FALSE;
 	UINT8	ReadCheckSumCounts = 0;
@@ -171,18 +175,21 @@ void InitializeData(void)
 
 		Flash_WriteInfo((u8*)&App,APP_SETUP_ADD,sizeof(App));
 
-		 printf("123\r\n");
+		 //printf("123\r\n");
 
 	}
 
 	memcpy(&App_Flash,&App,sizeof(App));
 
-	 printf("\n芯片ID号 = %d", System.Device.W25q64.SPI_Flash_ReadID());
-	 printf("\n芯片ID号 = 0x%x", System.Device.W25q64.SPI_Flash_ReadID());
+	 //printf("\n芯片ID号 = %d", System.Device.W25q64.SPI_Flash_ReadID());
+	 //printf("\n芯片ID号 = 0x%x", System.Device.W25q64.SPI_Flash_ReadID());
 
 
 	//测试写入默认密码
 	//Flash_WriteInfo("123456", 0x300000, 6);
+
+	Flash_ReadInfo((UINT8 *)floor_tmp, FLOOR_ADD, sizeof(Floor_Data)*MAX_FLOOR_NUM);
+	//Flash_WriteInfo((u8*)&App,APP_SETUP_ADD,sizeof(App));
 
 
 }
@@ -202,7 +209,8 @@ void InitializeData(void)
 *******************************************************************************/
 static void InitializeApp(void)
 {
-    	//InitializeData();
+
+	InitializeData();
     
     	//InitializeMenu();
 

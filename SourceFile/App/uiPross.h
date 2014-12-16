@@ -69,7 +69,7 @@ typedef struct Menu_Parameter
 
 void uiProcMain(void);
 u8 uiKeyIsDigit(u8 nKey);
-
-
+char   Cmd_Rep_valid(char*  pRep,char* plen);
+UINT8 SaveSystemInfo(void);
 #endif
 

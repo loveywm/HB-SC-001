@@ -329,6 +329,95 @@ void HB_Send_Realy_STOP(void)
         TransmitByte2(PROTOCOL_TAIL_2);
 }
 
+//发送当前编码器计数器的值
+void HB_Send_Current_Count(u32 count)
+{
+        unsigned char  sum = 0;
+
+        //头
+        TransmitByte2(PROTOCOL_HEAD_1);
+        TransmitByte2(PROTOCOL_HEAD_2);
+
+        //命令字
+        sum+=Ready_One_Byte_To_Send(CMD_LEVEL_UPDATA_CURRENT_COUNT);
+
+        //数据长度
+        sum+=Ready_One_Byte_To_Send(CMD_CURRENT_COUNT_DATA_LEN);
+
+          //32位重量
+        sum+=Ready_One_Byte_To_Send(count);//低位在前
+        sum+=Ready_One_Byte_To_Send(count>>8);//高位在后
+        sum+=Ready_One_Byte_To_Send(count>>16);
+        sum+=Ready_One_Byte_To_Send(count>>24);
+        
+        //校验和
+        TransmitByte2(sum);
+        
+        //尾
+        TransmitByte2(PROTOCOL_TAIL_1);
+        TransmitByte2(PROTOCOL_TAIL_2);
+
+}
+
+//发送前一次关机前保存的编码器计数器的值
+void HB_Send_Last_Count(u32 count)
+{
+        unsigned char  sum = 0;
+        //头
+        TransmitByte2(PROTOCOL_HEAD_1);
+        TransmitByte2(PROTOCOL_HEAD_2);
+        //命令字
+        sum+=Ready_One_Byte_To_Send(CMD_LEVEL_UPDATA_LAST_COUNT);
+        //数据长度
+        sum+=Ready_One_Byte_To_Send(CMD_CURRENT_COUNT_DATA_LEN);
+          //32位重量
+        sum+=Ready_One_Byte_To_Send(count);//低位在前
+        sum+=Ready_One_Byte_To_Send(count>>8);//高位在后
+        sum+=Ready_One_Byte_To_Send(count>>16);
+        sum+=Ready_One_Byte_To_Send(count>>24);
+        //校验和
+        TransmitByte2(sum);
+        //尾
+        TransmitByte2(PROTOCOL_TAIL_1);
+        TransmitByte2(PROTOCOL_TAIL_2);
+
+}
+
+//发送楼层更新数据
+void HB_Send_Floor(Floor_Data   *floor)
+{
+        //        char i;
+        unsigned char  sum = 0;
+
+        //头
+        TransmitByte2(PROTOCOL_HEAD_1);
+        TransmitByte2(PROTOCOL_HEAD_2);
+
+        //命令字
+        sum+=Ready_One_Byte_To_Send(CMD_LEVEL_UPDATA_FLOOR);
+
+        //数据长度
+        sum+=Ready_One_Byte_To_Send(CMD_CURRENT_COUNT_DATA_LEN+2);
+
+        sum+=Ready_One_Byte_To_Send(floor->floor_flag);//低位在前
+        sum+=Ready_One_Byte_To_Send(floor->floor_count);//高位在后3
+
+
+        sum+=Ready_One_Byte_To_Send(floor->floor_num);//低位在前4
+        sum+=Ready_One_Byte_To_Send((floor->floor_num)>>8);//高位在后5
+        sum+=Ready_One_Byte_To_Send((floor->floor_num)>>16);//6
+        sum+=Ready_One_Byte_To_Send((floor->floor_num)>>24);//7
+        
+        //校验和
+        TransmitByte2(sum);
+        
+        //尾
+        TransmitByte2(PROTOCOL_TAIL_1);
+        TransmitByte2(PROTOCOL_TAIL_2);
+}
+
+
+
 
 void HB_Send_Realy_CMD(u8 cmd)
 {

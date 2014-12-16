@@ -287,22 +287,9 @@ u16 T_Get_Adc_Average(u8 times)
 static u8  Handle_Weight(Menu_Parameter *Parameter)
 {
 	u32 ad_temp,operate_temp;
-	//App.Weight_Tmp =  fram_data_buff[5];			
-	//App.Weight_Tmp = (App.Weight_Tmp << 8) |fram_data_buff[4];
-	int adxxx = 0;
-
-
-
-	//20141215 用于显示临时平层计数器编码值
-	adxxx |= fram_data_buff[7]<<24;
-	adxxx |= fram_data_buff[6]<<16;
-	adxxx |= fram_data_buff[5]<<8;
-	adxxx |= fram_data_buff[4];
-
-	uiLcdDecimal(adxxx,3,0,0,7);
-	return 0;
+	App.Weight_Tmp =  fram_data_buff[5];			
+	App.Weight_Tmp = (App.Weight_Tmp << 8) |fram_data_buff[4];
 	
-
 	//printf("App.Weight_Tmp===%d\r\n",App.Weight_Tmp);
 			
 	if(App.Weight.weight_clear_ad_value_sign == 0)
@@ -568,8 +555,11 @@ void uiProcMenuCustom(int nPopupMenuTitle, T_UI_MENUITEM *pUiMenuItem, int row)
 			{
 				get_weight_clear_value();
 			}
-
+		
 			
+			break;
+		case UISTR_MENU_PINGCHENG_SET://平层标定界面
+			Encoder_Demarcate();
 			break;
 		default:
 			break;
@@ -830,11 +820,11 @@ void uiProcMenuSettingEnd(int nPopupMenuTitle)
 {
 	BOOL bSave0 = FALSE;
 
-	printf("nPopupMenuTitle===%d\r\n",nPopupMenuTitle);
-	printf("UISTR_MENU_ZAIZHONG_SET===%d\r\n",UISTR_MENU_ZAIZHONG_SET);
+	//printf("nPopupMenuTitle===%d\r\n",nPopupMenuTitle);
+	//printf("UISTR_MENU_ZAIZHONG_SET===%d\r\n",UISTR_MENU_ZAIZHONG_SET);
 	if(nPopupMenuTitle == UISTR_MENU_ZAIZHONG_SET)
 	{
-		printf("456\r\n");
+		//printf("456\r\n");
 		
 		if(App.Weight.Rated_weight  != App_Flash.Weight.Rated_weight )
 		{
@@ -1084,7 +1074,8 @@ void uiProcMain(void)
 		//WTV_Voice(xxxx);
 		//DelayMs(1000*4);
 	//}
-	
+	DelayMs(1000);
+	HB_Send_Last_Count(20000);
 	while(1)
 	{
 		nKey  = uiKeyGetKey();//处理按键和楼层
@@ -1108,6 +1099,44 @@ void uiProcMain(void)
 					Handle_ERR_Code(&Parameter);
 					//得到重量的值
 					Handle_Weight(&Parameter);
+				}
+				if(fram_data_buff[0] == CMD_LEVEL_UPDATA_CURRENT_COUNT)
+				{
+					int adxxx = 0;
+					//20141216 用于显示临时平层计数器编码值
+					adxxx |= fram_data_buff[5]<<24;
+					adxxx |= fram_data_buff[4]<<16;
+					adxxx |= fram_data_buff[3]<<8;
+					adxxx |= fram_data_buff[2];
+
+					uiLcdDecimal(adxxx,3,0,0,7);
+				}
+				if(fram_data_buff[0] == CMD_LEVEL_UPDATA_LAST_COUNT)
+				{
+					App.Floor_Last_Count |= fram_data_buff[5]<<24;
+					App.Floor_Last_Count |= fram_data_buff[4]<<16;
+					App.Floor_Last_Count |= fram_data_buff[3]<<8;
+					App.Floor_Last_Count |= fram_data_buff[2];
+					
+					if(App.Floor_Last_Count != App_Flash.Floor_Last_Count)
+					{
+						SaveSystemInfo();
+					}
+
+				}
+				if(fram_data_buff[0] == CMD_LEVEL_UPDATA_FLOOR)
+				{
+					u8	floor_num = 0;
+					floor_num = fram_data_buff[3];//楼层数位置
+					
+					//App.floor_tmp[floor_num-1].floor_num = floor_num;
+					
+					
+					//App.floor_tmp[floor_num-1].floor_count |= fram_data_buff[7]<<24;
+					//App.floor_tmp[floor_num-1].floor_count |= fram_data_buff[6]<<16;
+					//App.floor_tmp[floor_num-1].floor_count |= fram_data_buff[5]<<8;
+					//App.floor_tmp[floor_num-1].floor_count |= fram_data_buff[4];
+					
 				}
 
 

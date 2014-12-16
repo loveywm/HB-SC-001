@@ -50,7 +50,7 @@ void uiLcd_1616_ch(u8 address,u8 row,u8 col,u8 num);
 
 void uiLcdClear(void);
 
-
+void uiLcd_1414_ch(u8 address,u8 row,u8 col,u8 num);
 
 #endif /*__UILCD_12864_H*/
 
